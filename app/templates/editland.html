@@ -1,0 +1,82 @@
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h2 class="h2">Добро пожаловать в Админ-Панель</h2>
+	</div>
+
+	<!-- Content goes here --> 
+	<div class="d-flex align-items-start">
+		<div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+			{% for j_key, j_value in json_data.items() %}
+				<button class="nav-link" id="v-pills-{{ j_key }}-tab" data-bs-toggle="pill"
+				        data-bs-target="#v-pills-{{ j_key }}" type="button" role="tab"
+				        aria-controls="v-pills-{{ j_key }}" aria-selected="false">
+
+					{{ j_value[0].short_title }}
+
+				</button>
+			{% endfor %}
+		</div>
+
+		<div class="tab-content" id="v-pills-tabContent">
+			{% for j_key, j_value in json_data.items() %}
+				<div class="tab-pane fade" id="v-pills-{{ j_key }}" role="tabpanel"
+				     aria-labelledby="v-pills-{{ j_key }}-tab">
+					{% for item in j_value %}
+                        <form class="form_admin_panel border-bottom" action="update_content" method="POST" enctype="multipart/form-data"> <!-- Отправляем 1 сегмент блока через POST на endpoint update_content -->
+							{% if item.is_active == True %}
+								<p class="alert alert-success">Активное</p>
+							{% else %}
+								<p class="alert alert-danger">Отключено</p>
+							{% endif %}
+                            <p><input type="text" name="title" value="{{ item.title }}"><span class="ms-2">Название контента</span></p> <!--заголовок контента-->
+                            <p><textarea name="contenttext" rows="5" cols="50">{{ item.contenttext }}</textarea><span class="ms-2">Текст</span></p> <!--текст контента-->
+							<img src=".{{ item.img }}" class="mr-1" alt="{{ item.altimg }}" height="100"> <!-- показываем изображение которое сейчас доступно -->
+                            <input type="file" name="img" multiple> <!-- загрузка нового изображения -->
+                            <input type="hidden" name="id" value="{{ item.id }}"> <!-- id контента - поле скрыто -->
+                            <input type="hidden" name="author" value="{{ current_user.username }}">
+							<input type="hidden" name="short_title" value="{{ item.short_title }}">
+							<input type="hidden" name="id_block" value="{{ j_key }}">
+                            <button type="submit" class="btn btn-primary btn-local">Сохранить изменения</button>
+							{% if item.is_active == True %}
+                                <button type="submit" name="deactivate" class="btn btn-primary btn-local">Отключить</button>
+							{% else %}
+							    <button type="submit" name="activate" class="btn btn-primary btn-local">Включить</button>
+							{% endif %}
+
+							{% if item == j_value[-1] %}
+							    <hr>
+								<button type="button" class="btn btn-primary btn-local" data-bs-toggle="modal" data-bs-target="#myModal{{ j_key }}">
+									Добавить ещё <span>{{ item.short_title }}</span> <!-- добавление элемента -->
+								</button>
+								<div class="modal fade" id="myModal{{ j_key }}" tabindex="-1" aria-labelledby="myModal{{ j_key }}Label" aria-hidden="true">
+									<div class="modal-dialog">
+									  <div class="modal-content">
+										<div class="modal-header">
+										  <h5 class="modal-title" id="myModal{{ j_key }}Label">Добавление элемента</h5>
+										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<p><input type="text" name="new_title" placeholder="Название"></p> <!--заголовок контента-->
+											<p><textarea name="new_contenttext" rows="5" cols="40" placeholder="Текст"></textarea></p> <!--текст контента-->
+											<input type="file" name="new_img" multiple> <!-- загрузка нового изображения -->
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+											<button type="submit" name="new_item" class="btn btn-primary btn-local">Сохранить изменения</button>
+										</div>
+									  </div>
+									</div>
+								  </div>
+							{% endif %}
+                        </form>
+					       
+					{% endfor %}
+				    
+				</div>
+			    
+			{% endfor %}
+		</div>
+	</div>
+
+
+</main>
