@@ -13,7 +13,7 @@
 </head>
 <body>
 <!-- Header -->
-<header>
+<header class="container mt-4">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">Логотип</a>
@@ -28,6 +28,9 @@
                             <a class="nav-link" href="#{{ j_key }}">{{ j_value[0].short_title }}</a>
                         </li>
                     {% endfor %}
+					<li class="nav-item">
+						<a href="#footer" class="nav-link">Contacts</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -73,7 +76,7 @@
 
 
 <!-- Cards in grid -->
-<section id="cards" class="container mt-4">
+<section id="minicard" class="container mt-4">
 	<div class="row">
 		<!-- Card 1 -->
 		
@@ -95,7 +98,7 @@
 </section>
 
 {% for item in json_data[FEATURETTE] %}
-	<section id="features" class="container mt-4">
+	<section id="featurette" class="container mt-4">
 		<div class="row align-items-center">
 			{% if loop.index % 2 == 1 %}
 			<!-- Для нечетных featurette: изображение слева, текст справа -->
@@ -118,60 +121,38 @@
 				</div>
 			{% endif %}
 		</div>
+		<hr class="features-divider">
 	</section>
-	<hr class="features-divider">
 {% endfor %}
 
 
 	<!-- Footer -->
-<footer class="text-center text-white" style="background-color: #3f51b5">
-	<div class="container">
-		<section class="mt-5">
-		    <div class="row text-center d-flex justify-content-center pt-5">
-			    <!-- {% for j_key, j_value in json_data.items() %}
-
-				<div class="col-md-2">
-					<h6 class="text-uppercase font-weight-bold">
-						<a href="#{{ j_key }}" class="text-white">{{ j_value[0].short_title }}</a>
-					</h6>
-				</div>
-			    {% endfor %} -->
-
-		    </div>
-		</section>
-  
+<footer id="footer" class="text-center text-white" style="background-color: #3f51b5">
+	<div class="container px-4">
 		<hr class="my-5" />
   
-		<section class="mb-5">
-		  <div class="row d-flex justify-content-center">
-			<div class="col-lg-8">
-			  <p>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-				distinctio earum repellat quaerat voluptatibus placeat nam,
-				commodi optio pariatur est quia magnam eum harum corrupti
-				dicta, aliquam sequi voluptate quas.
-			  </p>
+		<div class="row gx-5 mb-3">
+			<div class="col">
+				<div class="contact text-start d-flex flex-column">
+					<h6 class="footer-heading text-uppercase text-white fw-bold">Contact Us</h6>
+					<a href="tel:+" class="text-white text-decoration-none d-block fw-semibold"><i class="lni lni-phone"></i>  909090XXXX</a>
+					<a href="mailto:" class="text-white text-decoration-none d-block fw-semibold"><i class="lni lni-google"></i> xyzdemomail@gmail.com</a>
+					<a href="#" class="text-white text-decoration-none fw-semibold"><i class="lni lni-telegram"></i> @xyzdemomail</a>
+					<a href="#" class="text-white text-decoration-none fw-semibold"><i class="lni lni-vk"></i> vkdemo</a>
+					<a href="#" class="text-white text-decoration-none fw-semibold"><i class="lni lni-whatsapp"></i> watsdemo</a>
+				</div>
 			</div>
-		  </div>
-		</section>
-		<section class="text-center mb-5">
-		  <a href="" class="text-white me-4">
-			<i class="lni lni-vk"></i>			
-		  </a>
-		  <a href="" class="text-white me-4">
-			<i class="lni lni-telegram"></i>
-		  </a>
-		  <a href="" class="text-white me-4">
-			<i class="lni lni-whatsapp"></i>
-		  </a>
-		  <a href="" class="text-white me-4">
-			<i class="lni lni-google"></i>
-		  </a>
-		  <a href="" class="text-white me-4">
-			<i class="lni lni-phone"></i>
-		  </a>
-		</section>
-	  </div>
+			<div class="col">
+			    <ul class="nav flex-column">
+					{% for j_key, j_value in json_data.items() %}
+					<li class="nav-item">
+						<a class="nav-link text-white text-decoration-none fw-bold" href="#{{ j_key }}">{{ j_value[0].short_title }}</a>
+					</li>
+				    {% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
 	  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
 		© 2020 Copyright:
 		<a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>

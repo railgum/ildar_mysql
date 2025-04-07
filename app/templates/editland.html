@@ -43,7 +43,11 @@
 							    <button type="submit" name="activate" class="btn btn-primary btn-local">Включить</button>
 							{% endif %}
 
-							{% if item == j_value[-1] %}
+							{% if item == j_value[-1] and (
+								(j_key == SLIDER and not ERROR_COUNT_SLIDER) or 
+								(j_key == MINICARD and not ERROR_COUNT_MINICARD) or 
+								(j_key == FEATURETTE and not ERROR_COUNT_FEATURETTE)
+								) %}
 							    <hr>
 								<button type="button" class="btn btn-primary btn-local" data-bs-toggle="modal" data-bs-target="#myModal{{ j_key }}">
 									Добавить ещё <span>{{ item.short_title }}</span> <!-- добавление элемента -->

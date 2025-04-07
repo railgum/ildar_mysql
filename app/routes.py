@@ -1,6 +1,5 @@
 import sqlalchemy as sa
 import datetime
-import hashlib
 import os
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
@@ -16,7 +15,6 @@ import functions as fun
 @app.route('/index')
 def index():
     # получить все записи из БД
-    blocks = Content.query.all()
     q = db.session.query(Content).all()
     json_data = {}
 
@@ -40,7 +38,6 @@ def index():
                 'timestampdata': raw.timestampdata,
                 'is_active': raw.is_active
             })
-    # print(json_data)
 
         context = {
             'SLIDER': os.environ.get('SLIDER_ID'),
@@ -90,6 +87,12 @@ def logout():
 @login_required
 def admin_panel():
     blocks = Content.query.all()
+    ERROR_COUNT_SLIDER = (Content.query.filter(
+        Content.idblock == os.environ.get('SLIDER_ID')).count()) > int(os.environ.get('MAX_COUNT_SLIDER'))
+    ERROR_COUNT_MINICARD = (Content.query.filter(
+        Content.idblock == os.environ.get('MINICARD_ID')).count()) > int(os.environ.get('MAX_COUNT_MINICARD'))
+    ERROR_COUNT_FEATURETTE = (Content.query.filter(
+        Content.idblock == os.environ.get('FEATURETTE_ID')).count()) > int(os.environ.get('MAX_COUNT_FEATURETTE'))
     # Группировка данных в словарь JSON
     json_data = {}
     for raw in blocks:
@@ -110,6 +113,13 @@ def admin_panel():
         })
     context = {
         'json_data': json_data,
+        'SLIDER': os.environ.get('SLIDER_ID'),
+        'MINICARD': os.environ.get('MINICARD_ID'),
+        'FEATURETTE': os.environ.get('FEATURETTE_ID'),
+        'FOOTER': os.environ.get('FOOTER_ID'),
+        'ERROR_COUNT_SLIDER': ERROR_COUNT_SLIDER,
+        'ERROR_COUNT_MINICARD': ERROR_COUNT_MINICARD,
+        'ERROR_COUNT_FEATURETTE': ERROR_COUNT_FEATURETTE,
     }
     # передаем json на фронт - далее нужно смотреть admin_panel.html и обрабатывать там
     return render_template('admin_panel.html', **context)
@@ -127,20 +137,12 @@ def update_content():
     idblock = request.form['id_block']
     title = request.form['title']
     contenttext = request.form['contenttext']
-    print(author, date_time)
-
-    # conn = get_db_connection()
-    # cursor = conn.cursor()
-    # author = getOneValueFromBase(conn, 'username', 'users', author_id)
-    # author = User.query.filter_by(user_id=author_id).first()
 
     if 'new_item' in request.form:
         new_title = request.form['new_title']
         new_contenttext = request.form['new_contenttext']
         new_img_file = request.files['new_img']
         imgpath = fun.process_img_file(new_img_file, short_title)
-        # cursor.execute('INSERT INTO content (idblock, short_title, img, altimg, title, contenttext, author, timestampdata, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        #                (idblock, short_title, imgpath, altimg, new_title, new_contenttext, author, date_time, True))
         new_item = Content(idblock=idblock, short_title=short_title, img=imgpath, altimg=altimg, title=new_title,
                            contenttext=new_contenttext, author=author, timestampdata=date_time, is_active=True)
         db.session.add(new_item)
