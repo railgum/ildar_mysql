@@ -8,6 +8,7 @@ from app.models import User, Content
 from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
 from app import csrf
+from app import bcrypt
 import functions as fun
 
 

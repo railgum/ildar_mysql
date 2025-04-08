@@ -1,4 +1,5 @@
-from werkzeug.security import generate_password_hash, check_password_hash
+# from werkzeug.security import generate_password_hash, check_password_hash
+from app import bcrypt
 from flask_login import UserMixin
 from app import db
 from app import login
@@ -17,10 +18,11 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = bcrypt.generate_password_hash(
+            password).decode('utf-8')
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'User({self.username})'
