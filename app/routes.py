@@ -9,6 +9,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
 from app import csrf
 import functions as fun
+import git
 
 
 @app.route('/')
@@ -173,14 +174,14 @@ def update_content():
     return redirect(url_for('admin_panel'))
 
 
-# @app.route('/update_server', methods=['POST'])
-# def webhook():
-#     if request.method == 'POST':
-#         repo = git.Repo('https://github.com/railgum/ildar_site.git')
-#         origin = repo.remotes.origin
+@app.route('/update_server', methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('https://github.com/railgum/ildar_site.git')
+        origin = repo.remotes.origin
 
-#         origin.pull()
+        origin.pull()
 
-#         return 'Updated PythonAnyWhere successfully!', 200
-#     else:
-#         return 'Wrong event type', 400
+        return 'Updated PythonAnyWhere successfully!', 200
+    else:
+        return 'Wrong event type', 400
