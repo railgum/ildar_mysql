@@ -174,6 +174,7 @@ def update_content():
     return redirect(url_for('admin_panel'))
 
 
+# Вебхук
 @app.route('/update_server', methods=['POST'])
 def webhook():
     if request.method == 'POST':
