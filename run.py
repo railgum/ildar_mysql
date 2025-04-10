@@ -9,7 +9,6 @@ from functions import path_to_save_images, make_dir  # noqa
 
 
 if __name__ == '__main__':
-    # db.create_all()
 
     make_dir(path_to_save_images, f"{os.environ.get('SLIDER')}")
     make_dir(path_to_save_images, f"{os.environ.get('MINICARD')}")
