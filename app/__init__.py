@@ -15,4 +15,5 @@ login = LoginManager(app)
 login.login_view = 'login'
 bcrypt = Bcrypt(app)
 
+
 from app import routes, models  # noqa
