@@ -20,10 +20,3 @@ bcrypt = Bcrypt(app)
 
 
 from app import routes, models  # noqa
-from functions import path_to_save_images, make_dir  # noqa
-
-
-make_dir(path_to_save_images, f"{os.environ.get('SLIDER')}")
-make_dir(path_to_save_images, f"{os.environ.get('MINICARD')}")
-make_dir(path_to_save_images, f"{os.environ.get('FEATURETTE')}")
-make_dir(path_to_save_images, f"{os.environ.get('FOOTER')}")
