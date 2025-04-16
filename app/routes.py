@@ -176,6 +176,7 @@ def update_content():
 
 # Вебхук
 @app.route('/update_server', methods=['POST'])
+@csrf.exempt
 def webhook():
     if request.method == 'POST':
         repo = git.Repo('https://github.com/railgum/ildar_site.git')
