@@ -179,7 +179,7 @@ def update_content():
 @csrf.exempt
 def webhook():
     if request.method == 'POST':
-        repo = git.Repo('https://github.com/railgum/ildar_site.git')
+        repo = git.Repo('https://github.com/railgum/ildar_mysql.git')
         origin = repo.remotes.origin
 
         origin.pull()
