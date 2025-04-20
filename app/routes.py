@@ -184,6 +184,6 @@ def webhook():
 
         origin.pull()
 
-        return 'Updated PythonAnyWhere successfully!', 200
+        return 'Updated successfully!', 200
     else:
         return 'Wrong event type', 400
